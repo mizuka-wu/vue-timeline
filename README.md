@@ -1,21 +1,55 @@
-# vue-timeline
+![](src/assets/logo.png)
 
-> A Vue.js project
+# Vue-timeline
 
-## Build Setup
+It just a simple time line component for vue 2.0  
+source code from [click me!](http://www.helloweba.com/view-blog-285.html)
 
-``` bash
-# install dependencies
-npm install
+* Data from json
+* Responsive
 
-# serve with hot reload at localhost:8080
-npm run dev
+![](src/assets/full.png)
+![](src/assets/small.png)
 
-# build for production with minification
-npm run build
+## Requirement
 
-# build for production and view the bundle analyzer report
-npm run build --report
+* npm
+* vue2.0.1+
+* bootstrap3
+
+That's all. 
+
+
+## Installation
+1. Binding properties
+```
+<timeLine :points="points"></timeLine>
+```
+2. Config the points (all can be ignored)
+```
+points: [
+          {
+            pointColor: 'red', // important! the color of every time point and you can use red yellow or green *关键点颜色 可选red yellow green
+            img: 'http://www.jikexueyuan.com/event/static/images/bootstrap/bootstrap-logo.png', // img url for every time point 图片地址 可留空
+            title: 'hello world', // important! title *时间点标题
+            text: 'first post', // important! the content you want show *时间点内容
+            linkUrl: 'https://www.google.com', // url for read more 链接url 留空则不显示按钮
+            linkText: 'Read detail', // show what in read for more button 按钮显示内容 默认为Read more
+            date: '2017-1-1' // time of the point 时间点
+          }
+        ]
+```
+3. Get the current time point's all parameters you write
+```
+<timeLine @currentPoint="your function"></timeLine>
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Custom
+Incoming
+
+
+To Do List
+----------
+
+- config for max showing points
