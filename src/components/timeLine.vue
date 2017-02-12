@@ -328,9 +328,15 @@
     },
     components: {},
     methods: {
-      getImg: function (img) {
-        var url = img === undefined ? img : this.defaultImg
-        return url
+      getImg: function (imgurl) {
+        var ImgObj = new Image() // 判断图片是否存在
+        ImgObj.src = imgurl
+        // 没有图片，则返回-1
+        if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
+          return imgurl
+        } else {
+          return this.defaultImg
+        }
       },
       changeCurrentTimePoint: function (point) {
         this.$on('currentPoint', point)
