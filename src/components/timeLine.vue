@@ -1,77 +1,33 @@
 <template>
-  <section class="vue-timeline-container vue-timeline">
-    <div class="vue-timeline-block">
-      <div class="vue-timeline-img vue-picture">
-        <img src="http://7xnlea.com1.z0.glb.clouddn.com/vue-icon-picture.svg" alt="Picture">
+  <section class="timeline-container timeline">
+    <div @click="changeCurrentTimePoint(point)" v-for="point in points" class="timeline-block">
+      <div class="timeline-img" :class="['timeline-img',point.pointColor===undefined?'red':point.pointColor]">
+        <img v-if="point.img" :src="getImg(point.img)" alt="">
       </div>
 
-      <div class="vue-timeline-content">
-        <h2>HTML5+CSS3实现的响应式垂直时间轴</h2>
-        <p>网页时间轴一般用于展示以时间为主线的事件，如企业网站常见的公司发展历程等。本文将给大家介绍一款基于HTML5和CSS3的漂亮的垂直时间轴，它可以响应页面布局，适用于HTML5开发的PC和移动手机WEB应用。</p>
-        <a href="http://www.helloweba.com/view-blog-285.html" class="vue-read-more" target="_blank">阅读全文</a>
-        <span class="vue-date">2015-01-06</span>
-      </div>
-    </div>
-    <div class="vue-timeline-block">
-      <div class="vue-timeline-img vue-movie">
-        <img src="http://7xnlea.com1.z0.glb.clouddn.com/vue-icon-movie.svg" alt="Movie">
-      </div>
-
-      <div class="vue-timeline-content">
-        <h2>jQuery+PHP动态数字展示效果</h2>
-        <p>我们在一些应用中需要动态展示数据，比如当前在线人数，当前交易总额，当前汇率等等，前端页面需要实时刷新获取最新数据。本文将结合实例给大家介绍使用jQuery和PHP来实现动态数字展示效果。</p>
-        <a href="http://www.helloweba.com/view-blog-284.html" class="vue-read-more" target="_blank">阅读全文</a>
-        <span class="vue-date">2014-12-25</span>
-      </div>
-    </div>
-    <div class="vue-timeline-block">
-      <div class="vue-timeline-img vue-picture">
-        <img src="http://7xnlea.com1.z0.glb.clouddn.com/vue-icon-picture.svg" alt="Picture">
-      </div>
-
-      <div class="vue-timeline-content">
-        <h2>PHP操作Session和Cookie</h2>
-        <p>我们跟踪用户信息时需要用到Session和Cookie，比如用户登录验证、记录用户浏览历史，存储购物车数据，限制用户会话有效时间等。今天我们来了解下PHP是如何操作Session和Cookie的。</p>
-        <a href="http://www.helloweba.com/view-blog-283.html" class="vue-read-more" target="_blank">阅读全文</a>
-        <span class="vue-date">2014-12-20</span>
-      </div>
-    </div>
-    <div class="vue-timeline-block">
-      <div class="vue-timeline-img vue-movie">
-        <img src="http://7xnlea.com1.z0.glb.clouddn.com/vue-icon-movie.svg" alt="Movie">
-      </div>
-
-      <div class="vue-timeline-content">
-        <h2>jQuery数字加减插件</h2>
-        <p>
-          我们在网上购物提交订单时，在网页上一般会有一个选择数量的控件，要求买家选择购买商品的件数，开发者会把该控件做成可以通过点击实现加减等微调操作，当然也可以直接输入数字件数。本文将介绍常见的几种使用spinner数字微调器来实现数字加减的功能的方法。</p>
-        <a href="http://www.helloweba.com/view-blog-282.html" class="vue-read-more" target="_blank">阅读全文</a>
-        <span class="vue-date">2014-12-14</span>
-      </div>
-    </div>
-    <div class="vue-timeline-block">
-      <div class="vue-timeline-img vue-movie">
-        <img src="http://7xnlea.com1.z0.glb.clouddn.com/vue-icon-location.svg" alt="Location">
-      </div>
-
-      <div class="vue-timeline-content">
-        <h2>收集整理的非常有用的PHP函数</h2>
-        <p>项目中经常会需要一些让人头疼的函数，作为开发者应该整理一个自己的函数库，在需要之时复制过来即可。本文作者收集整理数十个PHP项目中常用的函数，保证能正常运行，你只要复制粘贴到你项目中即可。</p>
-        <a href="http://www.helloweba.com/view-blog-281.html" class="vue-read-more" target="_blank">阅读全文</a>
-        <span class="vue-date">2014-12-05</span>
+      <div class="timeline-content">
+        <h2 v-text="point.title"></h2>
+        <p v-text="point.text"></p>
+        <a :href="point.linkUrl"
+           class="read-more"
+           target="_blank"
+           v-if="point.linkUrl"
+           v-html="point.linkText!=undefined?point.linkText:'Read more'"
+        ></a>
+        <span v-if="point.date" class="date" v-text="point.date"></span>
       </div>
     </div>
   </section>
 </template>
 <style scoped>
-  .vue-timeline-container {
+  .timeline-container {
     /* this class is used to give a max-width to the element it is applied to, and center it horizontally when it reaches that max-width */
     width: 90%;
     max-width: 1170px;
     margin: 0 auto;
   }
 
-  .vue-timeline-container::after {
+  .timeline-container::after {
     /* clearfix */
     content: '';
     display: table;
@@ -84,14 +40,14 @@
 
   -------------------------------- */
 
-  .vue-timeline {
+  .timeline {
     position: relative;
     padding: 2em 0;
     margin-top: 2em;
     margin-bottom: 2em;
   }
 
-  .vue-timeline::before {
+  .timeline::before {
     /* this is the vertical line */
     content: '';
     position: absolute;
@@ -103,51 +59,51 @@
   }
 
   @media only screen and (min-width: 1170px) {
-    .vue-timeline {
+    .timeline {
       margin-top: 3em;
       margin-bottom: 3em;
     }
 
-    .vue-timeline::before {
+    .timeline::before {
       left: 50%;
       margin-left: -2px;
     }
   }
 
-  .vue-timeline-block {
+  .timeline-block {
     position: relative;
     margin: 2em 0;
   }
 
-  .vue-timeline-block:after {
+  .timeline-block:after {
     content: "";
     display: table;
     clear: both;
   }
 
-  .vue-timeline-block:first-child {
+  .timeline-block:first-child {
     margin-top: 0;
   }
 
-  .vue-timeline-block:last-child {
+  .timeline-block:last-child {
     margin-bottom: 0;
   }
 
   @media only screen and (min-width: 1170px) {
-    .vue-timeline-block {
+    .timeline-block {
       margin: 4em 0;
     }
 
-    .vue-timeline-block:first-child {
+    .timeline-block:first-child {
       margin-top: 0;
     }
 
-    .vue-timeline-block:last-child {
+    .timeline-block:last-child {
       margin-bottom: 0;
     }
   }
 
-  .vue-timeline-img {
+  .timeline-img {
     position: absolute;
     top: 0;
     left: 0;
@@ -157,7 +113,7 @@
     box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
   }
 
-  .vue-timeline-img img {
+  .timeline-img img {
     display: block;
     width: 24px;
     height: 24px;
@@ -168,20 +124,20 @@
     margin-top: -12px;
   }
 
-  .vue-timeline-img.vue-picture {
+  .timeline-img.green {
     background: #75ce66;
   }
 
-  .vue-timeline-img.vue-movie {
+  .timeline-img.red {
     background: #c03b44;
   }
 
-  .vue-timeline-img.vue-location {
+  .timeline-img.yellow {
     background: #f0ca45;
   }
 
   @media only screen and (min-width: 1170px) {
-    .vue-timeline-img {
+    .timeline-img {
       width: 60px;
       height: 60px;
       left: 50%;
@@ -191,19 +147,19 @@
       -webkit-backface-visibility: hidden;
     }
 
-    .cssanimations .vue-timeline-img.is-hidden {
+    .cssanimations .timeline-img.is-hidden {
       visibility: hidden;
     }
 
-    .cssanimations .vue-timeline-img.bounce-in {
+    .cssanimations .timeline-img.bounce-in {
       visibility: visible;
-      -webkit-animation: vue-bounce-1 0.6s;
-      -moz-animation: vue-bounce-1 0.6s;
-      animation: vue-bounce-1 0.6s;
+      -webkit-animation: bounce-1 0.6s;
+      -moz-animation: bounce-1 0.6s;
+      animation: bounce-1 0.6s;
     }
   }
 
-  .vue-timeline-content {
+  .timeline-content {
     position: relative;
     margin-left: 60px;
     background: white;
@@ -212,31 +168,31 @@
     box-shadow: 0 3px 0 #d7e4ed;
   }
 
-  .vue-timeline-content:after {
+  .timeline-content:after {
     content: "";
     display: table;
     clear: both;
   }
 
-  .vue-timeline-content h2 {
+  .timeline-content h2 {
     color: #303e49;
   }
 
-  .vue-timeline-content p, .vue-timeline-content .vue-read-more, .vue-timeline-content .vue-date {
+  .timeline-content p, .timeline-content .read-more, .timeline-content .date {
     font-size: 13px;
     font-size: 0.8125rem;
   }
 
-  .vue-timeline-content .vue-read-more, .vue-timeline-content .vue-date {
+  .timeline-content .read-more, .timeline-content .date {
     display: inline-block;
   }
 
-  .vue-timeline-content p {
+  .timeline-content p {
     margin: 1em 0;
     line-height: 1.6;
   }
 
-  .vue-timeline-content .vue-read-more {
+  .timeline-content .read-more {
     float: right;
     padding: .8em 1em;
     background: #acb7c0;
@@ -244,22 +200,22 @@
     border-radius: 0.25em;
   }
 
-  .no-touch .vue-timeline-content .vue-read-more:hover {
+  .no-touch .timeline-content .read-more:hover {
     background-color: #bac4cb;
   }
 
-  a.vue-read-more:hover {
+  a.read-more:hover {
     text-decoration: none;
     background-color: #424242;
   }
 
-  .vue-timeline-content .vue-date {
+  .timeline-content .date {
     float: left;
     padding: .8em 0;
     opacity: .7;
   }
 
-  .vue-timeline-content::before {
+  .timeline-content::before {
     content: '';
     position: absolute;
     top: 16px;
@@ -271,41 +227,41 @@
   }
 
   @media only screen and (min-width: 768px) {
-    .vue-timeline-content h2 {
+    .timeline-content h2 {
       font-size: 20px;
       font-size: 1.25rem;
     }
 
-    .vue-timeline-content p {
+    .timeline-content p {
       font-size: 16px;
       font-size: 1rem;
     }
 
-    .vue-timeline-content .vue-read-more, .vue-timeline-content .vue-date {
+    .timeline-content .read-more, .timeline-content .date {
       font-size: 14px;
       font-size: 0.875rem;
     }
   }
 
   @media only screen and (min-width: 1170px) {
-    .vue-timeline-content {
+    .timeline-content {
       margin-left: 0;
       padding: 1.6em;
       width: 45%;
     }
 
-    .vue-timeline-content::before {
+    .timeline-content::before {
       top: 24px;
       left: 100%;
       border-color: transparent;
       border-left-color: white;
     }
 
-    .vue-timeline-content .vue-read-more {
+    .timeline-content .read-more {
       float: left;
     }
 
-    .vue-timeline-content .vue-date {
+    .timeline-content .date {
       position: absolute;
       width: 100%;
       left: 122%;
@@ -314,11 +270,11 @@
       font-size: 1rem;
     }
 
-    .vue-timeline-block:nth-child(even) .vue-timeline-content {
+    .timeline-block:nth-child(even) .timeline-content {
       float: right;
     }
 
-    .vue-timeline-block:nth-child(even) .vue-timeline-content::before {
+    .timeline-block:nth-child(even) .timeline-content::before {
       top: 24px;
       left: auto;
       right: 100%;
@@ -326,43 +282,65 @@
       border-right-color: white;
     }
 
-    .vue-timeline-block:nth-child(even) .vue-timeline-content .vue-read-more {
+    .timeline-block:nth-child(even) .timeline-content .read-more {
       float: right;
     }
 
-    .vue-timeline-block:nth-child(even) .vue-timeline-content .vue-date {
+    .timeline-block:nth-child(even) .timeline-content .date {
       left: auto;
       right: 122%;
       text-align: right;
     }
 
-    .cssanimations .vue-timeline-content.is-hidden {
+    .cssanimations .timeline-content.is-hidden {
       visibility: hidden;
     }
 
-    .cssanimations .vue-timeline-content.bounce-in {
+    .cssanimations .timeline-content.bounce-in {
       visibility: visible;
-      -webkit-animation: vue-bounce-2 0.6s;
-      -moz-animation: vue-bounce-2 0.6s;
-      animation: vue-bounce-2 0.6s;
+      -webkit-animation: bounce-2 0.6s;
+      -moz-animation: bounce-2 0.6s;
+      animation: bounce-2 0.6s;
     }
   }
 
   @media only screen and (min-width: 1170px) {
     /* inverse bounce effect on even content blocks */
-    .cssanimations .vue-timeline-block:nth-child(even) .vue-timeline-content.bounce-in {
-      -webkit-animation: vue-bounce-2-inverse 0.6s;
-      -moz-animation: vue-bounce-2-inverse 0.6s;
-      animation: vue-bounce-2-inverse 0.6s;
+    .cssanimations .timeline-block:nth-child(even) .timeline-content.bounce-in {
+      -webkit-animation: bounce-2-inverse 0.6s;
+      -moz-animation: bounce-2-inverse 0.6s;
+      animation: bounce-2-inverse 0.6s;
     }
   }
 
 </style>
 <script>
   export default{
-    data () {
-      return {}
+    props: {
+      points: {
+        required: true
+      }
     },
-    components: {}
+    data () {
+      return {
+        defaultImg: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNDg2OTExMDgyNTYzIiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjIxNDYiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48L3N0eWxlPjwvZGVmcz48cGF0aCBkPSJNMzYxLjU2NTEwNSAwbDI5Ni44NzcxNjkgMCAwIDk3LjYwNzMxMy0yOTYuODc3MTY5IDAgMC05Ny42MDczMTNaIiBwLWlkPSIyMTQ3Ij48L3BhdGg+PHBhdGggZD0iTTQ2MS4xOTIyMDQgMzQzLjYyOTcyNWw5Ny42MDczMTMgMCAwIDI0NC4wMDI2MjYtOTcuNjA3MzEzIDAgMC0yNDQuMDAyNjI2WiIgcC1pZD0iMjE0OCI+PC9wYXRoPjxwYXRoIGQ9Ik05NTMuMjA1NzEzIDE2Mi42MDA1NjlsLTY5LjAwMTUxMy02OS4wMDE1MTMtMTI3LjcwMDU1MyAxMjcuNzAwNTUzYy03MC4yODU0MDctNDcuNzU0NjIxLTE1NS4xMTY0MDMtNzUuNzAyODE3LTI0Ni40OTIxMjktNzUuNzAyODE3QzI2Ny40MzM3MDEgMTQ1LjU5Njc5MyA3MC43OTQyNjUgMzQyLjIyMDU3MiA3MC43OTQyNjUgNTg0Ljc5ODM4OWMwIDI0Mi41NjIxNTkgMTk2LjYzOTQzNyA0MzkuMjAxNTk2IDQzOS4yMDE1OTYgNDM5LjIwMTU5NiAyNDIuNTc3ODE2IDAgNDM5LjIwMTU5Ni0xOTYuNjM5NDM3IDQzOS4yMDE1OTYtNDM5LjIwMTU5NiAwLTExNS45MjYyOTktNDUuMjQ5NDYtMjIxLjA0OTA5NC0xMTguNjM1MDA0LTI5OS41NTQ1NTlMOTUzLjIwNTcxMyAxNjIuNjAwNTY5ek04NTEuNjA1OCA1ODQuNzk4Mzg5YzAgMTg4LjY1NDIzOC0xNTIuOTQwMDQ0IDM0MS42MDk5NC0zNDEuNjA5OTQgMzQxLjYwOTk0UzE2OC40MDE1NzggNzczLjQ1MjYyNyAxNjguNDAxNTc4IDU4NC43OTgzODljMC0xODguNjY5ODk1IDE1Mi45NDAwNDQtMzQxLjYwOTk0IDM0MS42MDk5NC0zNDEuNjA5OTRTODUxLjYwNTggMzk2LjEyODQ5NCA4NTEuNjA1OCA1ODQuNzk4Mzg5eiIgcC1pZD0iMjE0OSI+PC9wYXRoPjwvc3ZnPg=='
+      }
+    },
+    components: {},
+    methods: {
+      getImg: function (imgurl) {
+        var ImgObj = new Image() // 判断图片是否存在
+        ImgObj.src = imgurl
+        // 没有图片，则返回-1
+        if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
+          return imgurl
+        } else {
+          return this.defaultImg
+        }
+      },
+      changeCurrentTimePoint: function (point) {
+        this.$on('currentPoint', point)
+      }
+    }
   }
 </script>
